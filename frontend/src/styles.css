@@ -1,0 +1,460 @@
+:root {
+    --bg: #0a0e16;
+    --surface: #121826;
+    --surface-raised: #1a2233;
+    --border: #26304a;
+    --text: #e6ecf7;
+    --text-muted: #8d9ab5;
+    --accent: #5eead4;
+    --danger: #f87171;
+    --danger-surface: rgba(248, 113, 113, 0.1);
+    --radius: 10px;
+    --shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+    color-scheme: dark;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family:
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        sans-serif;
+    font-size: 14px;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+/* ---------- header ---------- */
+
+.app__header {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.app__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.app__subtitle {
+    margin: 2px 0 0;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+/* ---------- status strip ---------- */
+
+.status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.status__item strong {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+.status__item--meta {
+    opacity: 0.75;
+}
+
+.status__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex: none;
+}
+
+.status__dot--busy {
+    background: #fbbf24;
+    animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    50% {
+        opacity: 0.25;
+    }
+}
+
+/* ---------- controls ---------- */
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 28px;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+}
+
+.controls__field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 260px;
+}
+
+.controls__label {
+    display: flex;
+    gap: 10px;
+    align-items: baseline;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.controls__value {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+.controls__hint {
+    font-size: 11px;
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.controls__actions {
+    display: flex;
+    gap: 8px;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+    display: inline-flex;
+    gap: 7px;
+    align-items: center;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-raised);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+    transition:
+        background 120ms ease,
+        border-color 120ms ease,
+        opacity 120ms ease;
+}
+
+.btn:hover:not(:disabled) {
+    border-color: #3a4a6e;
+    background: #212b41;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+.btn--primary {
+    border-color: transparent;
+    background: var(--accent);
+    color: #06231f;
+    font-weight: 600;
+}
+
+.btn--primary:hover:not(:disabled) {
+    border-color: transparent;
+    background: #7ff3dd;
+}
+
+.spinner {
+    width: 12px;
+    height: 12px;
+    border: 2px solid currentColor;
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 700ms linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ---------- stage & map ---------- */
+
+.app__stage {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+}
+
+.map,
+.map canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* ---------- overlays ---------- */
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+    pointer-events: none;
+}
+
+.overlay--error {
+    background: rgba(10, 14, 22, 0.55);
+    pointer-events: auto;
+}
+
+.overlay--loading {
+    background: rgba(10, 14, 22, 0.72);
+}
+
+.overlay--empty .panel {
+    pointer-events: auto;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    max-width: 440px;
+    padding: 22px 24px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow);
+}
+
+.overlay--error .panel {
+    border-color: rgba(248, 113, 113, 0.4);
+    background: linear-gradient(
+        180deg,
+        var(--danger-surface),
+        var(--surface) 60%
+    );
+}
+
+.panel__eyebrow {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.panel__title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.panel__detail {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 13px;
+    word-break: break-word;
+}
+
+.panel__hint {
+    margin: 0;
+    font-size: 12px;
+    color: var(--accent);
+}
+
+.panel__hint--muted {
+    color: var(--text-muted);
+}
+
+.panel .btn {
+    margin-top: 6px;
+}
+
+.skeleton {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    width: 100%;
+    margin-top: 6px;
+}
+
+.skeleton span {
+    height: 9px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #1c2438 25%, #2a3550 50%, #1c2438 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* ---------- legend ---------- */
+
+.legend {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(18, 24, 38, 0.92);
+    box-shadow: var(--shadow);
+    backdrop-filter: blur(6px);
+}
+
+.legend__title {
+    margin: 0 0 8px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.legend__list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.legend__row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+}
+
+.legend__swatch {
+    width: 22px;
+    height: 11px;
+    border-radius: 2px;
+    flex: none;
+}
+
+.legend__note {
+    margin: 9px 0 0;
+    color: var(--text-muted);
+    font-size: 10.5px;
+    opacity: 0.75;
+}
+
+/* ---------- tooltip ---------- */
+
+.tooltip {
+    position: absolute;
+    z-index: 5;
+    min-width: 178px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: rgba(18, 24, 38, 0.96);
+    box-shadow: var(--shadow);
+    pointer-events: none;
+}
+
+.tooltip__id {
+    margin: 0 0 6px;
+    color: var(--accent);
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    font-size: 11.5px;
+}
+
+.tooltip__stats {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    margin: 0;
+}
+
+.tooltip__stats div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.tooltip__stats dt {
+    color: var(--text-muted);
+    font-size: 11.5px;
+}
+
+.tooltip__stats dd {
+    margin: 0;
+    font-size: 11.5px;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+/* ---------- maplibre chrome ---------- */
+
+.maplibregl-ctrl-attrib {
+    font-size: 10px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

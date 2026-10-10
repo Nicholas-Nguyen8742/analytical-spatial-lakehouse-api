@@ -17,11 +17,16 @@ dist-ssr/
 *.local
 .vite/
 
+# --- Generated test/coverage reports (both ecosystems) ---
+coverage/
+*.tsbuildinfo
+
 # --- Data lake artifacts (regenerable, never commit) ---
-# --- data/*.parquet ---
-# --- data/*.duckdb ---
-# --- data/*.duckdb.wal ---
-# --- !data/.gitkeep ---
+data/*.parquet
+data/*.partial
+data/*.duckdb
+data/*.duckdb.wal
+!data/.gitkeep
 
 # --- Secrets / environment ---
 .env

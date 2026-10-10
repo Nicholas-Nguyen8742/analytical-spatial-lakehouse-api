@@ -1,0 +1,51 @@
+{
+  "name": "geo-lakehouse-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "deck.gl + MapLibre client for the DuckDB spatial lakehouse API",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc -b --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@deck.gl/core": "^9.4.0",
+    "@deck.gl/layers": "^9.4.0",
+    "@deck.gl/mapbox": "^9.4.0",
+    "@tanstack/react-query": "^5.104.1",
+    "maplibre-gl": "^6.13.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
+  },
+  "devDependencies": {
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.7",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "@vitest/coverage-v8": "^5.0.3",
+    "eslint": "^10.12.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "jsdom": "^30.1.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.71.1",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.3"
+  },
+  "overrides": {
+    "@loaders.gl/core": "4.5.3",
+    "@loaders.gl/images": "4.5.3",
+    "@loaders.gl/loader-utils": "4.5.3",
+    "@loaders.gl/schema": "4.5.3",
+    "@loaders.gl/schema-utils": "4.5.3",
+    "@loaders.gl/worker-utils": "4.5.3"
+  }
+}

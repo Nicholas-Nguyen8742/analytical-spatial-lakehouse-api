@@ -1,0 +1,73 @@
+[project]
+name = "datalake"
+version = "0.1.0"
+description = "Analytical spatial lakehouse: DuckDB + FastAPI serving pre-aggregated GeoParquet"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "fastapi>=0.115",
+    "uvicorn[standard]>=0.32",
+    "duckdb>=1.1",
+    "pydantic-settings>=2.6",
+]
+
+[project.scripts]
+datalake-api = "datalake.main:main"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "ruff>=0.8",
+    "mypy>=1.13",
+    "httpx>=0.28",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/datalake"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "C4", "RUF", "S"]
+ignore = [
+    "S101", # assert is idiomatic in pytest
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101", "S608"]
+# S608 flags any f-string SQL, but cannot be suppressed per-statement here: ruff reports
+# multi-line f-strings at their opening line, where a `# noqa` comment cannot be placed.
+# These four modules are the only ones that assemble SQL text. The discipline that makes
+# that safe, and that these ignores depend on:
+#   * every request-derived value is a bound parameter ($min_x, $min_count, $max_tracts);
+#   * only module-level constants are interpolated as identifiers (view/column names);
+#   * every filesystem path goes through db.path_literal(), which rejects embedded quotes.
+# S608 stays enabled in main.py, settings.py, models.py and spec.py so that SQL string
+# building cannot silently spread into a module that lacks those guarantees.
+"src/datalake/queries.py" = ["S608"]
+"src/datalake/db.py" = ["S608"]
+"src/datalake/generate_data.py" = ["S608"]
+"src/datalake/build_summary.py" = ["S608"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+mypy_path = "src"
+packages = ["datalake"]
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = "duckdb.*"
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

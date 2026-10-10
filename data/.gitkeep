@@ -1,0 +1,3 @@
+# Lake artifacts (tracts.parquet, buildings.parquet, summary.parquet) are generated,
+# not committed. Run backend: `uv run python -m datalake.generate_data` then
+# `uv run python -m datalake.build_summary`.
